@@ -67,7 +67,10 @@ BEGIN
 		
 		if n is null then
 		
-		call updatepersona(new.fkpersona_id,new.nombre,new.cedula,new.apellido);
+		
+		UPDATE public.models_persona 
+		SET  nombre=new.nombre, cedula=new.cedula, apellido=new.apellido
+		WHERE new.fkpersona_id=models_persona."macadd";
 		
 		end if;	
 	end if;
@@ -110,7 +113,25 @@ BEGIN
 	
 	else 
 	
-	call ventarechazadap(new.nombre, new.apellido, new.cedula, new.total, new.fecha);
+	INSERT INTO public.models_ventarechazada(
+	 fecha, total, cedula, nombre, apellido, fktienda_id)
+	VALUES ( new.fecha, new.total, new.cedula, new.nombre, new.apellido, new.fktienda_id);
+	
+	return null;
+	
+	end if;
+	
+END
+$$ LANGUAGE plpgSQL;
+
+
+CREATE TRIGGER CompraRechazadaT
+BEFORE INSERT
+ON models_compra
+FOR EACH ROW
+EXECUTE PROCEDURE CompraRechazada();
+
+
 	
 	return null;
 	
