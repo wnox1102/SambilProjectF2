@@ -18,7 +18,11 @@ Windows
 
 5)  python manage.py createsuperuser ( crear un usuario para loggearte y ver la pagina administrativa del proyecto "opcional" )
 
-6)  python3.6 manage.py runserver localhost:puerto ( Comando para correr el proyecto, ejemplo python3.6 manage.py runserver localhost:8000)
+6) Irse a la carpeta Sambil en el archivo settings buscar vector con el nombre DATABASES y modificar las variables de entorno con su usuario y contresena de postgres
+
+7) configurar dichas variables que hacen llamados con psycopg2 en los archivos view.py que se encuentra en la carpeta models , se cambian igual el usuario y contresena, como tambien realizar dichos cambios en el pub.py y en el sub.py 
+
+8)  python3.6 manage.py runserver localhost:puerto ( Comando para correr el proyecto, ejemplo python3.6 manage.py runserver localhost:8000)
 
 #----------------------------------------------------------------------------------------------------------------------------------------#
 
