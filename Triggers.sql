@@ -8,12 +8,12 @@ declare
 BEGIN
 		
 		if new.macadd is not null then
-			SELECT s."macaddres" into n 
+			SELECT s."macadd" into n 
 			from Persona as s
-			where s."macaddres"=new.macadd;
+			where s."macadd"=new.macadd;
 			
 			if n is null then
-			INSERT INTO public.persona( macaddres) VALUES (new.macadd);	
+			INSERT INTO public.models_persona( macadd) VALUES (new.macadd);	
 			end if;
 			
 		end if;
@@ -24,7 +24,7 @@ $$ LANGUAGE plpgSQL;
 
 CREATE TRIGGER RegistroPersonaT
 BEFORE INSERT
-ON EntradaCC
+ON models_entradacc
 FOR EACH ROW
 EXECUTE PROCEDURE RegistroPersona();
 
@@ -37,7 +37,7 @@ declare
 f int ;
 BEGIN
 
-	call macentrada(new.fkpersonamac,new.id);
+	call models_compraentrada(new.fkpersona_id,new.id);
 	
 	return null;
 	
@@ -47,7 +47,7 @@ $$ LANGUAGE plpgSQL;
 
 CREATE TRIGGER CompraconMacT
 AFTER INSERT
-ON Compra
+ON models_compra
 FOR EACH ROW
 EXECUTE PROCEDURE CompraconMac();
 
@@ -59,15 +59,15 @@ RETURNS TRIGGER AS $$
 declare
 n varchar(20);
 BEGIN
-	if new.fkpersonamac is not null then
+	if new.fkpersona_id is not null then
 	
 		select p."cedula" into n
-		from persona as p
-		where new.fkpersonamac=p."macaddres";
+		from models_persona as p
+		where new.fkpersona_id=p."macadd";
 		
 		if n is null then
 		
-		call updatepersona(new.fkpersonamac,new.nombre,new.cedula,new.apellido);
+		call updatepersona(new.fkpersona_id,new.nombre,new.cedula,new.apellido);
 		
 		end if;	
 	end if;
@@ -79,7 +79,7 @@ $$ LANGUAGE plpgSQL;
 
 CREATE TRIGGER RegistroDatosPersona
 AFTER INSERT
-ON Compra
+ON models_compra
 FOR EACH ROW
 EXECUTE PROCEDURE RegistroDatosPersona();
 
@@ -93,14 +93,14 @@ n timestamp;
 s timestamp;
 BEGIN
 
-	select e."registroe" into n from entradacc as e
-	inner join persona as p on p."macaddres"=e."macadd"
+	select e."registroe" into n from models_entradacc as e
+	inner join models_persona as p on p."macadd"=e."macadd"
 	where p."cedula"=new.cedula
 	order by e."registroe" desc
 	limit 1;
 	
-	select e."registros" into s from salidacc as e
-	inner join persona as p on p."macaddres"=e."macadd"
+	select e."registros" into s from models_salidacc as e
+	inner join models_persona as p on p."macaddres"=e."macadd"
 	where p."cedula"=new.cedula and e."registros" > n
 	order by e."registros" desc 
 	limit 1;
@@ -110,7 +110,7 @@ BEGIN
 	
 	else 
 	
-	call ventarechazadap(new.nombre, new.apellido, new.cedula, new.total, new.fecha);
+	call ventarechazada(new.nombre, new.apellido, new.cedula, new.total, new.fecha);
 	
 	return null;
 	
@@ -122,7 +122,7 @@ $$ LANGUAGE plpgSQL;
 
 CREATE TRIGGER CompraRechazadaT
 BEFORE INSERT
-ON Compra
+ON models_compra
 FOR EACH ROW
 EXECUTE PROCEDURE CompraRechazada();
 

@@ -5,7 +5,7 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     
- 	INSERT INTO public.ventarechazadas(nombre, apellido, cedula, monto, fecha)
+ 	INSERT INTO public.models_ventarechazadas(nombre, apellido, cedula, monto, fecha)
 	VALUES (n, a, c, m, f);
     
 END;
@@ -17,7 +17,7 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     
- 		UPDATE public.persona 
+ 		UPDATE public.models_persona 
 		SET  nombre=n, cedula=c, apellido=a
 		WHERE mac=persona."macaddres";
     
