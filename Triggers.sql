@@ -9,7 +9,7 @@ BEGIN
 		
 		if new.macadd is not null then
 			SELECT s."macadd" into n 
-			from Persona as s
+			from models_persona as s
 			where s."macadd"=new.macadd;
 			
 			if n is null then
@@ -63,7 +63,7 @@ BEGIN
 	
 		select p."cedula" into n
 		from models_persona as p
-		where new.fkpersona_id=p."macadd";
+		where p."cedula" = new.cedula;
 		
 		if n is null then
 		
@@ -100,7 +100,7 @@ BEGIN
 	limit 1;
 	
 	select e."registros" into s from models_salidacc as e
-	inner join models_persona as p on p."macaddres"=e."macadd"
+	inner join models_persona as p on p."macadd"=e."macadd"
 	where p."cedula"=new.cedula and e."registros" > n
 	order by e."registros" desc 
 	limit 1;
@@ -125,10 +125,3 @@ BEFORE INSERT
 ON models_compra
 FOR EACH ROW
 EXECUTE PROCEDURE CompraRechazada();
-
-
-
-
-
-
-
