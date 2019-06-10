@@ -61,7 +61,7 @@ def main():
         while((len(peopleInside) + len(peopleInStore) + len(peopleSitting) + len(parkingCars)) > 0):
             ran = np.random.uniform(0, len(peopleInside))
             while(ran > 0):
-                cameraID = int(np.random.uniform(1 , numAccess - 1))
+                cameraID = int(np.random.uniform(1 , numAccess))
                 payload = leavingMall(cameraID, currentTime)
 
                 if(payload["time"] != "null"):
@@ -127,7 +127,7 @@ def main():
 
 #Publisher's Methods
 def pubEntrance(client, numAccess, currentTime):
-    cameraID = int(np.random.uniform(1 , numAccess - 1))
+    cameraID = int(np.random.uniform(1 , numAccess))
 
     if((int(np.random.uniform(0,3)) != 1) or (len(peopleInside) == 0)):
         if(int(np.random.uniform(0,5)) == 1 and len(knownPeople) > 0): #Random to get someone known inside
