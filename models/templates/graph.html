@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Graficas Sambil</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+</head>
+
+<style>
+</style>
+<body>
+    <header>
+    <nav class="navbar", style="background: rgb(86, 86, 252);">
+        <a class="navbar-brand" href="/admin/", style="color: white;">
+        <img src="http://www.gruposambil.com/wp-content/uploads/2018/05/logo_alta_sambil.png" width="150" height="50" class="d-inline-block align-top" alt="imagen"> Administracion Sambil
+        </a>
+    </nav>
+    </header>
+       <br>
+    <section>
+            <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-title" style="text-align: center;">
+                                <br>
+                                <h3>La siguiente grafica refleja el flujo de personas por cada entrada</h3>
+
+                                </div>
+                            <hr>
+                            <div class="card-body">
+                                <canvas id="myChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-title" style="text-align: center;">
+                                <br>
+                                <h3> siguiente grafica refleja la cantidad de personas que entran con telefono inteligente y los que no</h3>
+                            </div>
+                            <hr>
+                            <div class="card-body">
+                                    <canvas id="myChart2" width="400" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+    </section>
+    <br>
+    <hr>
+    <br>
+    <section>
+            <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-title" style="text-align: center;">
+                                <br>
+                               <h3> Diversidad de personas que ingresan al centro comercial por edad </h3>
+                            </div>
+                            <hr>
+                            <div class="card-body">
+                                <canvas id="myChart3" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-title" style="text-align: center;">
+                                <br>
+                               <h3> La siguiente grafica muestra las tiendas con mas ventas en la semana</h3>
+                             </div>
+                            <hr>
+                            <div class="card-body">
+                                    <canvas id="myChart4" width="400" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+    </section>
+    <br>
+    <hr>
+    <br>
+    <section>
+        <div class="row">
+                <div class="col-sm-7">
+                    <div class="card" style="position: relative; left: 35%; width: 1000px; height: 600px;">
+                        <div class="card-title" style="text-align: center;">
+                            <br>
+                            <h3>Flujo de personas que ingresan al centro comercial por hora</h3>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <canvas id="myChart5" width="1600" height="800"></canvas>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </section>
+    <br>
+    <br>
+    <section>
+        <div class="row">
+                <div class="col-sm-7">
+                    <div class="card" style="position: relative; left: 35%; width: 1000px; height: 600px;">
+                        <div class="card-title" style="text-align: center;">
+                            <br>
+                            <h3>Flujo de personas que ingresan al centro comercial por hora</h3>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                            <canvas id="myChart6" width="1600" height="800"></canvas>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </section>
+    <br>
+
+    <section>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="card" style="position: relative; left: 35%; width: 1000px; height: 680px;">
+                    <div class="card-title" style="text-align: center;">
+                        <br>
+                        <h3>Flujo de personas que salen del centro comercial por hora</h3>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <canvas id="myChart7" width="1050" height="550", style="background-image:url('https://github.com/wnox1102/SambilProjectF/blob/master/img/piso1.png?raw=true');"></canvas>
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+    </section>
+    <section>
+        <img src="../../img/piso1.png" alt="">
+    </section>
+</body>
+
+<script>
+    var cant_pers =[] ;
+    var labels ;
+      
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        console.log(data.labels)
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels:data.labels,
+                datasets: [{
+                    label: 'Flujo de las personas por cada entrada',
+                    data: data.default,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+            
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+   
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        console.log(data.default2)
+        lineChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.labels2,
+                    datasets: [{
+                        data: data.default2,
+                        backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255,1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                    }]
+                }, 
+            });
+            
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+   
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+    new Chart(document.getElementById("myChart3"), {
+    type: 'radar',
+    data: {
+      labels: ["0-9 años","10-20 años", "21-30 años", "31-40 años", "41-50 años", "51-60 años","61-70 años","71-80 años","81-90 años"],
+      datasets: [
+        {
+          label: "Con Telefono Inteligente",
+          fill: true,
+          backgroundColor: "rgba(54, 162, 235, 0.3)",
+          borderColor: "rgba(54, 162, 235,1)",
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "rgba(54, 162, 235, 1)",
+          data: data.default4
+        }, {
+          label: "Sin Telefono Inteligente",
+          fill: true,
+          backgroundColor: "rgba(87,35,100,0.3)",
+          borderColor: "rgba(87,35,100,1)",
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "rgba(87,35,100,1)",
+          pointBorderColor: "#fff",
+          data: data.default3
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Distribution in % of world population'
+      }
+    }
+});
+            
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+    
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+            console.log(data.default5)
+            console.log(data.label)
+     new Chart(document.getElementById("myChart4"), {
+    type: 'horizontalBar',
+    data: {
+      labels: data.labels4,
+      datasets: [
+        {
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: data.default5
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'TOP 5 DE TIENDAS EN EL CENTRO COMERCIAL '
+      }
+    }
+});
+            
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+        new Chart(document.getElementById("myChart5"), {
+            type: 'line',
+            data: {
+              labels: data.labelsHora,
+              datasets: [{ 
+                  data: data.default6,
+                  label: "Entrada 1",
+                  borderColor: "#3e95cd",
+                  fill: false
+                }, { 
+                  data: data.default7,
+                  label: "Entrada 2",
+                  borderColor: "#8e5ea2",
+                  fill: false
+                }, { 
+                  data: data.default8,
+                  label: "Entrada 3",
+                  borderColor: "#3cba9f",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Cantidad de Personas por hora '
+              }
+            }
+});
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+    
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+            new Chart(document.getElementById("myChart6"), {
+            type: 'line',
+            data: {
+              labels: data.labelsHora,
+              datasets: [{ 
+                  data: data.default9,
+                  label: "Entrada 1",
+                  borderColor: "#3e95cd",
+                  fill: false
+                }, { 
+                  data: data.default10,
+                  label: "Entrada 2",
+                  borderColor: "#8e5ea2",
+                  fill: false
+                }, { 
+                  data: data.default11,
+                  label: "Entrada 3",
+                  borderColor: "#3cba9f",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Flujo de salida de las personas por hora '
+              }
+            }
+});
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+
+    $.ajax({
+        method:'GET',
+        url:'data/',
+        success: function(data){
+        console.log(data.default12)
+     new Chart(document.getElementById("myChart7"), {
+    type: 'bubble',
+    data: {
+      datasets: [{data:[{
+          x:0,
+          y:0,
+      }]},
+        {
+          label: ["ENTRADA 1"],
+          backgroundColor: "rgba(250,55,55,0.7)",
+          borderColor: "rgba(255,55,55,1)",
+          data: [{
+            x: 16.3,
+            y:2.3,
+            r: data.default[0]/31
+          }]
+        }, {
+          label: ["ENTRADA 4"],
+          backgroundColor: "rgba(60,186,159,0.2)",
+          borderColor: "rgba(60,186,159,1)",
+          data: [{
+            x: 26,
+            y: 1,
+            r: 69
+          }]
+        }, {
+          label: ["ENTRADA 3"],
+          backgroundColor: "rgba(0,0,0,0.2)",
+          borderColor: "#000",
+          data: [{
+            x: 7.9,
+            y: 7.5,
+            r: data.default[2]/31
+          }]
+        }, {
+          label: ["ENTRADA 2"],
+          backgroundColor: "rgba(193,46,12,0.2)",
+          borderColor: "rgba(193,46,12,1)",
+          data: [{
+            x: 28,
+            y: 9.1,
+            r: data.default[1]/31,
+            
+          }]
+        },{
+            data:[{
+                x:40,
+                y:10
+            }]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+      }, scales: {
+        yAxes: [{ 
+          scaleLabel: {
+            display: true,
+            labelString: "mapa calor"
+          }
+        }],
+        xAxes: [{ 
+          scaleLabel: {
+            display: true,
+          }
+        }]
+      }
+    }
+});
+        },
+        error: function (error_data){
+            console.log(error_data)
+        }
+    });
+        </script>
+</html>
