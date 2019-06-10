@@ -23,8 +23,8 @@ select * from masVisitas
 ----top 3 tiendas con mayor cantdad de ventas
 CREATE OR REPLACE VIEW toptiendas AS
 SELECT count(c.id) AS ventas,s.nombre
-FROM models_compra as c
-JOIN tienda as s ON s.fkbeacon_id = c.fktienda_id
+FROM models_compra AS c
+JOIN tienda AS s ON s.fkbeacon_id = c.fktienda_id
 GROUP BY s.nombre
 ORDER BY (count(c.id)) DESC
 LIMIT 3;
@@ -38,8 +38,8 @@ CREATE OR REPLACE VIEW mayordiaventas as
 SELECT sum(s.total) AS ventas,
 concat_ws('-'::text, date_part('day'::text, s.fecha), date_part('month'::text, s.fecha), date_part('year'::text, s.fecha)) AS fecha,
 t.nombre
-FROM compra as s
-JOIN tienda t ON s.fktienda_id = t.fkbeacon_id
+FROM models_compra as s
+JOIN models_tienda t ON s.fktienda_id = t.fkbeacon_id
 GROUP BY s.fecha, t.nombre
 ORDER BY ventas DESC
 LIMIT 3;

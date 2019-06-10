@@ -37,7 +37,7 @@ declare
 f int ;
 BEGIN
 
-	call models_compraentrada(new.fkpersona_id,new.id);
+	call macentrada(new.fkpersona_id,new.id);
 	
 	return null;
 	
@@ -110,7 +110,7 @@ BEGIN
 	
 	else 
 	
-	call ventarechazada(new.nombre, new.apellido, new.cedula, new.total, new.fecha);
+	call ventarechazadap(new.nombre, new.apellido, new.cedula, new.total, new.fecha);
 	
 	return null;
 	
