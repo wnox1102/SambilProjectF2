@@ -83,8 +83,8 @@ class RegistroM(models.Model):
     io = models.BooleanField()
 
 class CompraEntrada(models.Model):
-    fkcompra = models.ForeignKey(Compra, on_delete=models.CASCADE)
-    fechaentrada = models.DateTimeField()
+    fkcompra = models.IntegerField(null=True)
+    fkentrada = models.IntegerField(null=True)
 
 class EntradaCarro(models.Model):
     macadd = models.CharField(max_length=20, null=True, blank= True)
